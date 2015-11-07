@@ -14,19 +14,19 @@ object EverstoreBuild extends Build {
     base = file(".")) aggregate(scalaAdapter, akkaAdapter, consoleExample, akkaSprayExample)
 
   lazy val scalaAdapter = Project(id = "scalaAdapter",
-    base = file("scala/adapter")) settings (commonSettings: _*)
+    base = file("adapter")) settings (commonSettings: _*)
 
   lazy val akkaAdapter = Project(id = "akkaAdapter",
-    base = file("scala/adapter-akka")) settings (commonSettings: _*) dependsOn scalaAdapter
+    base = file("adapter-akka")) settings (commonSettings: _*) dependsOn scalaAdapter
 
   //
   // Scala Examples
   //
 
   lazy val consoleExample = Project(id = "consoleExample",
-    base = file("scala/examples/console-examples")) settings (commonSettings: _*) dependsOn scalaAdapter
+    base = file("examples/console-examples")) settings (commonSettings: _*) dependsOn scalaAdapter
 
   lazy val akkaSprayExample = Project(id = "akkaSprayExample",
-    base = file("scala/examples/akka-spray-example")) settings (commonSettings: _*) dependsOn(scalaAdapter, akkaAdapter)
+    base = file("examples/akka-spray-example")) settings (commonSettings: _*) dependsOn(scalaAdapter, akkaAdapter)
 
 }

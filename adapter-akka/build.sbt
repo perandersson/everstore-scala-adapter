@@ -16,6 +16,12 @@ resolvers ++= Seq(
   Resolver.mavenLocal
 )
 
+//
+// Everstore Java adapter
+//
+
+libraryDependencies += "everstore" % "vanilla" % "1.0-SNAPSHOT"
+
 val sprayVersion = "1.3.3"
 val akkaVersion = "2.3.11"
 

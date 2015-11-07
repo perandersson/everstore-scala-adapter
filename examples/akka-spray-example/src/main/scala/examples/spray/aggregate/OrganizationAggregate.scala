@@ -6,7 +6,6 @@ import akka.actor.Props
 import everstore.adapter.akka.extension.PersistenceActor
 import everstore.adapter.akka.extension.PersistenceActor.GetState
 import everstore.adapter.akka.extension.PersistenceActor.UpdateState
-import everstore.api._
 import examples.spray.aggregate.OrganizationAggregate.GetOrganization
 import examples.spray.aggregate.OrganizationAggregate._
 import examples.spray.domain.AccountingMethod

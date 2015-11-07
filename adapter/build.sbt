@@ -18,6 +18,12 @@ resolvers ++= Seq(
 )
 
 //
+// Everstore Java adapter
+//
+
+libraryDependencies += "everstore" % "vanilla" % "1.0-SNAPSHOT"
+
+//
 // Serialization Libraries
 //
 libraryDependencies ++= Seq(
@@ -35,4 +41,4 @@ libraryDependencies += "org.scala-lang.modules" %% "scala-async" % "0.9.4"
 // Test dependencies
 //
 
-libraryDependencies += "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"

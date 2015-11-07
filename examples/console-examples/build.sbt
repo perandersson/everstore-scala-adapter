@@ -16,6 +16,12 @@ resolvers ++= Seq(
   Resolver.mavenLocal
 )
 
+//
+// Everstore Java adapter
+//
+
+libraryDependencies += "everstore" % "vanilla" % "1.0-SNAPSHOT"
+
 // Async Await
 libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-async" % "0.9.4"

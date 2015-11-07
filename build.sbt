@@ -1,5 +1,5 @@
 
-name := "Everstore JVM Adapters and Examples"
+name := "Everstore Scala Adapters and Examples"
 
 //
 // Resolvers
