@@ -1,6 +1,5 @@
 package everstore.scala
 
-import java.util.concurrent.CompletableFuture
 import java.util.function.BiFunction
 
 import everstore.api.Adapter
@@ -17,7 +16,7 @@ class ScalaAdapter(config: AdapterConfig) {
   def close() = adapter.close()
 
   def openTransaction(name: String) = {
-    val transaction = adapter.openTransaction(name).asInstanceOf[CompletableFuture[Transaction]]
+    val transaction = adapter.openTransaction(name)
     val promise = Promise[ScalaTransaction]()
     transaction.handle(new BiFunction[Transaction, Throwable, Transaction]() {
       override def apply(t: Transaction, throwable: Throwable): Transaction = {
@@ -27,6 +26,23 @@ class ScalaAdapter(config: AdapterConfig) {
           promise.failure(throwable)
         }
         null
+      }
+    })
+
+    promise.future
+  }
+
+  def journalExists(name: String) = {
+    val exists = adapter.journalExists(name)
+    val promise = Promise[Boolean]()
+    exists.handle(new BiFunction[java.lang.Boolean, Throwable, java.lang.Boolean]() {
+      override def apply(t: java.lang.Boolean, throwable: Throwable): java.lang.Boolean = {
+        if (throwable == null) {
+          promise.success(t)
+        } else {
+          promise.failure(throwable)
+        }
+        t
       }
     })
 
