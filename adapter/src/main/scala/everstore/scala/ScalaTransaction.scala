@@ -7,19 +7,18 @@ import java.util.function.BiFunction
 import java.util.{List => JList}
 
 import everstore.api.CommitResult
-import everstore.api.Offset
+import everstore.api.JournalSize
 import everstore.api.Transaction
 
+import scala.collection.JavaConversions._
 import scala.concurrent.Future
 import scala.concurrent.Promise
-
-import scala.collection.JavaConversions._
 
 class ScalaTransaction(transaction: Transaction) {
   def size = transaction.size()
 
-  def readFromOffset(offset: Offset): Future[List[AnyRef]] = {
-    val result = transaction.readFromOffset(offset).asInstanceOf[CompletableFuture[JList[AnyRef]]]
+  def readFromOffset(offset: JournalSize): Future[List[AnyRef]] = {
+    val result = transaction.readFromOffset(offset)
     val promise = Promise[List[AnyRef]]()
     result.handle(new BiFunction[JList[AnyRef], Throwable, JList[AnyRef]]() {
       override def apply(t: JList[AnyRef], throwable: Throwable): JList[AnyRef] = {
@@ -35,7 +34,7 @@ class ScalaTransaction(transaction: Transaction) {
   }
 
   def rollback(): Future[Boolean] = {
-    val result = transaction.rollback().asInstanceOf[CompletableFuture[lang.Boolean]]
+    val result = transaction.rollback()
     val promise = Promise[Boolean]()
     result.handle(new BiFunction[lang.Boolean, Throwable, lang.Boolean]() {
       override def apply(t: lang.Boolean, success: Throwable): lang.Boolean = {
@@ -50,12 +49,12 @@ class ScalaTransaction(transaction: Transaction) {
     promise.future
   }
 
-  def read(): Future[List[AnyRef]] = readFromOffset(Offset.ZERO)
+  def read(): Future[List[AnyRef]] = readFromOffset(JournalSize.ZERO)
 
   def add[T](event: T) = transaction.add(event)
 
   def commit(): Future[CommitResult] = {
-    val result = transaction.commit().asInstanceOf[CompletableFuture[CommitResult]]
+    val result = transaction.commit()
     val promise = Promise[CommitResult]()
     result.handle(new BiFunction[CommitResult, Throwable, CommitResult]() {
       override def apply(t: CommitResult, success: Throwable): CommitResult = {

@@ -8,8 +8,6 @@ import everstore.adapter.akka.PersistenceSnapshotManager
 import everstore.adapter.akka.kryo.KryoPersistenceSnapshotManager
 import everstore.api.AdapterConfig
 import everstore.api.JournalSize
-import everstore.api.Offset
-import everstore.api.Transaction
 import everstore.scala.ScalaAdapter
 import everstore.scala.ScalaTransaction
 import everstore.serialization.json4s.Json4sSerializer
@@ -105,7 +103,7 @@ trait PersistenceActor[T] {
    * @param transaction The transaction
    * @return A promise to return a list of events occurring after the last read
    */
-  private def readEventsFromOffset(transaction: ScalaTransaction) = transaction.readFromOffset(new Offset(_lastJournalOffset.value))
+  private def readEventsFromOffset(transaction: ScalaTransaction) = transaction.readFromOffset(_lastJournalOffset)
 
   override final def receive: Receive = receiveCommand orElse defaultProcessCommand
 
